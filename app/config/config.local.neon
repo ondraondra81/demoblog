@@ -1,0 +1,6 @@
+doctrine:
+	dbname: demoblog
+	user: demoblog
+	password: demoblog
+	metadata:
+		App: %appDir%
