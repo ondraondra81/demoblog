@@ -21,6 +21,15 @@ session:
 services:
 	router: App\RouterFactory::createRouter
 
+	# Authenticator
+	- App\Model\Authenticator
+
+	# DAO services
+	- App\Model\Dao\Users(@doctrine.dao("App\\Model\\Entities\\User"))
+
+	#FormComponent
+	- App\AdminModule\Componentes\Form\UserForm
+	- App\AdminModule\Componentes\Form\LoginForm
 
 extensions:
 	console: Kdyby\Console\DI\ConsoleExtension
@@ -28,3 +37,8 @@ extensions:
 	annotations: Kdyby\Annotations\DI\AnnotationsExtension
 	doctrine: Kdyby\Doctrine\DI\OrmExtension
 	webloader: WebLoader\Nette\Extension
+
+
+doctrine:
+	metadata:
+		App: %appDir%

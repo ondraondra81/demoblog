@@ -8,7 +8,10 @@
 
 namespace App\AdminModule\Presenters;
 
+
+use Nette;
 use Nette\Application\UI\Presenter;
+use App\AdminModule\Componentes\Form\UserForm;
 
 /**
  * Class AdminPresenter
@@ -19,9 +22,50 @@ use Nette\Application\UI\Presenter;
 class AdminPresenter extends Presenter
 {
 
-    public function renderDefault()
+    /**
+     * @var UserForm $userForm
+     */
+    protected $userForm;
+
+    /**
+     * @param UserForm $userForm
+     */
+    public function injectUserForm(UserForm $userForm)
     {
 
+        $this->userForm = $userForm;
+    }
+
+    /**
+     * @return Nette\Application\UI\Form
+     */
+    public function createComponentUserForm()
+    {
+
+        $id = $this->getPresenter()->getParameter('id');
+        return $form = $this->userForm->create($id);
+
+    }
+
+    # aby presenter ukazoval id v url adrese
+    public function renderManageuser($id)
+    {
+
+    }
+
+    /**
+     * Pokud neni uživatel přihlášen přesměrujeme ho na přihlašovací stránku
+     */
+    public function beforeRender()
+    {
+        if(!$this->getUser()->isLoggedIn()){
+            $this->redirect("Login:default");
+        }
+
+    }
+
+    public function renderDefault()
+    {
 
     }
 }

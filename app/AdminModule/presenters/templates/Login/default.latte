@@ -1,0 +1,63 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html>
+<head>
+
+<!--------------------
+LOGIN FORM
+by: Amit Jakhu
+www.amitjakhu.com
+--------------------->
+
+<!--META-->
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>Login Form</title>
+
+<!--STYLESHEETS-->
+<link href="/css/admin/login.css" rel="stylesheet" type="text/css" />
+
+</head>
+<body>
+
+<!--WRAPPER-->
+<div id="wrapper">
+
+
+<!--LOGIN FORM-->
+<form name="login-form" class="login-form" action="" method="post">
+
+	<!--HEADER-->
+    <div class="header">
+    <!--TITLE--><h1>Login to demoblog</h1><!--END TITLE-->
+    <!--DESCRIPTION--><span>Login do administrace</span><!--END DESCRIPTION-->
+    </div>
+    <!--END HEADER-->
+
+	<!--CONTENT-->
+	{form login}
+    <div class="content">
+	<!--USERNAME--><input n:name="username" type="text" class="input username" placeholder="Username"  /><!--END USERNAME-->
+    <!--PASSWORD--><input n:name="password" type="password" class="input password" placeholder="Password" /><!--END PASSWORD-->
+    </div>
+    <!--END CONTENT-->
+
+    <!--FOOTER-->
+    <div class="footer">
+    <!--LOGIN BUTTON--><input type="submit" n:name="send" value="Login" class="button" /><!--END LOGIN BUTTON-->
+<ul class="errors" n:if="$form->hasErrors()">
+        <li n:foreach="$form->errors as $error">{$error}</li>
+    </ul>
+    </div>
+
+    {/form}
+    <!--END FOOTER-->
+
+</form>
+<!--END LOGIN FORM-->
+
+</div>
+<!--END WRAPPER-->
+
+<!--GRADIENT--><div class="gradient"></div><!--END GRADIENT-->
+
+</body>
+</html>
