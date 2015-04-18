@@ -6,7 +6,7 @@
  * Time: 10:55
  */
 
-namespace App\Model\Dao;
+namespace App\Model\Repository;
 
 use App\Model\Entities;
 use Nette;
@@ -14,7 +14,7 @@ use Kdyby;
 
 /**
  * Class Users
- * @package App\Model\Dao
+ * @package App\Model\Repository
  * @author Ondra Votava <ja@ondravotava.cz>
  */
 
@@ -22,13 +22,18 @@ class Users extends Nette\Object
 {
 
     /**
-     * @var \Kdyby\Doctrine\EntityDao
+     * @var Kdyby\Doctrine\EntityManager
      */
-    protected $dao;
+    private $em;
 
-    public function __construct(Kdyby\Doctrine\EntityDao $dao)
+    private $repository;
+
+
+
+    public function __construct(Kdyby\Doctrine\EntityManager $entityManager)
     {
-        $this->dao = $dao;
+        $this->em = $entityManager;
+        $this->repository = $entityManager->getRepository(Entities\User::class);
     }
 
     /**
@@ -38,7 +43,7 @@ class Users extends Nette\Object
      */
     public function findByUsername($username)
     {
-        return $this->dao->findOneBy(array('username' => $username));
+        return $this->repository->findOneBy(array('username' => $username));
     }
 
     /**
@@ -49,6 +54,6 @@ class Users extends Nette\Object
     public function findById($id)
     {
 
-        return $this->dao->findOneBy(array('id' => $id));
+        return $this->repository->findOneBy(array('id' => $id));
     }
 }

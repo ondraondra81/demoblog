@@ -10,7 +10,7 @@ namespace App\AdminModule\Componentes\Form;
 
 use App\Model\Entities\User;
 use Nette;
-use App\Model\Dao;
+use App\Model\Repository;
 use Nette\Application\UI\Form;
 use Kdyby\Doctrine\EntityManager;
 
@@ -24,7 +24,7 @@ class UserForm extends Nette\Object
 {
 
     /**
-     * @var  Dao\Users $users
+     * @var  Repository\Users $users
      */
     private $users;
 
@@ -33,7 +33,7 @@ class UserForm extends Nette\Object
      */
     private $em;
 
-    public function __construct(Dao\Users $users, EntityManager $entityManager)
+    public function __construct(Repository\Users $users, EntityManager $entityManager)
     {
 
         $this->users = $users;
@@ -134,4 +134,6 @@ class UserForm extends Nette\Object
 
 
     }
+
 }
+
