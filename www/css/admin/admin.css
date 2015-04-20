@@ -1,0 +1,14 @@
+.article-control
+{
+    max-width: 880px;
+    margin-left: 50px;
+}
+
+@media screen and (max-width: 600px)
+{
+    .article-control
+    {
+        margin: auto;
+        max-width: 95%;
+    }
+}
