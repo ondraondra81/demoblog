@@ -74,7 +74,7 @@ class Tag extends Kdyby\Doctrine\Entities\BaseEntity
      *
      * @return Article $this
      */
-    public function addArticles(Article $article)
+    public function addArticle(Article $article)
     {
 
         # provedeme puze pokud již $article v ArrayCollection nexistuje
