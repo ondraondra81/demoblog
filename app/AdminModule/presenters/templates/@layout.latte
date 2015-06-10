@@ -12,9 +12,9 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="{$basePath}favicon.ico">
 
-    <title>{ifset #title}{include title|striptags} | {/ifset} DemoBlog </title>
+    <title>{ifset #title}{include title|striptags} | {/ifset}{$blogSettings->webSiteName}</title>
 
 
 <link rel="stylesheet" type="text/css" href="/css/bootstrap.min.css">
@@ -24,7 +24,7 @@
 <link rel="stylesheet" type="text/css" href="/css/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="/css/admin/morris.css">
 <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/themes/smoothness/jquery-ui.css" />
-
+<link rel="stylesheet" type="text/css" href="/css/admin/texyla.css">
 
     {block head}{/block}
   </head>
@@ -49,11 +49,74 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                <a class="navbar-brand" n:href="Admin:default">DemoBlog Admin</a>
+                <a class="navbar-brand" n:href="Admin:default">{$blogSettings->webSiteName} Admin</a>
             </div>
             <!-- /.navbar-header -->
 
             <ul class="nav navbar-top-links navbar-right">
+
+
+
+                <li class="dropdown">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#">
+                        <i class="fa fa-bell fa-fw"></i>  <i class="fa fa-caret-down"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-alerts">
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-comment fa-fw"></i> New Comment
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-twitter fa-fw"></i> 3 New Followers
+                                    <span class="pull-right text-muted small">12 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-envelope fa-fw"></i> Message Sent
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-tasks fa-fw"></i> New Task
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a href="#">
+                                <div>
+                                    <i class="fa fa-upload fa-fw"></i> Server Rebooted
+                                    <span class="pull-right text-muted small">4 minutes ago</span>
+                                </div>
+                            </a>
+                        </li>
+                        <li class="divider"></li>
+                        <li>
+                            <a class="text-center" href="#">
+                                <strong>See All Alerts</strong>
+                                <i class="fa fa-angle-right"></i>
+                            </a>
+                        </li>
+                    </ul>
+                    <!-- /.dropdown-alerts -->
+                </li>
+                <!-- /.dropdown -->
                 <li class="dropdown">
                     <a class="dropdown-toggle" data-toggle="dropdown" href="#">
                         <i class="fa fa-user fa-fw"></i>{$user->identity->data['username']}  <i class="fa fa-caret-down"></i>
@@ -122,7 +185,6 @@
                 <!-- /.row -->
 
 				<div class="row">
-				<div n:foreach="$flashes as $flash" n:class="flash, $flash->type">{$flash->message}</div>
 				{include content}
 				</div>
 				<!-- /.row -->
@@ -137,14 +199,19 @@
 
     <!-- jQuery -->
 
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+	    <script src="{$basePath}/js/jquery.browser.min.js"></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.3/jquery-ui.min.js"></script>
     	<script src="{$basePath}/js/bootstrap.min.js"></script>
+    	<script src="{$basePath}/js/admin/jquery-ui.min.js"></script>
     	<script src="{$basePath}/js/admin/metisMenu.min.js"></script>
     	<script src="{$basePath}/js/admin/sb-admin-2.js"></script>
     	<script src="{$basePath}/js/netteForms.js"></script>
     	<script src="{$basePath}/js/nette.ajax.js"></script>
     	<script src="{$basePath}/js/admin/main.js"></script>
+    	<script src="{$basePath}/js/texyla.min.js"></script>
+    	{*<script src="{$basePath}/js/texyla-init.js"></script>*}
+    	{control texyla}
 
     {block scripts}{/block}
 

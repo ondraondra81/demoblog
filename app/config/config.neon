@@ -1,8 +1,6 @@
 # WARNING: it is CRITICAL that this file & directory are NOT accessible directly via a web browser!
 # http://nette.org/security-warning
 
-parameters:
-
 
 php:
 	date.timezone: Europe/Prague
@@ -24,12 +22,38 @@ services:
 	# Authenticator
 	- App\Model\Authenticator
 
-	# DAO services
-	- App\Model\Dao\Users(@doctrine.dao("App\\Model\\Entities\\User"))
+	# Repository services
+	- App\Model\Repository\Users
+	- App\Model\Repository\Articles
+	- App\Model\Repository\Tags
 
 	#FormComponent
 	- App\AdminModule\Componentes\Form\UserForm
 	- App\AdminModule\Componentes\Form\LoginForm
+
+
+	#Texy
+	- CreativeDesign\Utils\Texy\TexyConfig(%texyConfig%)
+
+	#Blog Settings
+	- App\BlogSettings(%blogSettings%)
+
+	#Forms
+#	- App\Form\ArticleManagerForm
+#	- App\Form\LoginForm
+#	- App\Form\TagManager
+
+
+parameters:
+	texyConfig:
+		imageRoot: /article/upload/
+		fileRoot: %wwwDir%/article/upload/
+		urlHost: phpsnippets.cz
+	blogSettings:
+		webSiteName: phpSnippets.cz
+		webSiteLogo: /img/logo.png
+		webSiteUrl: http://phpsnippets.cz
+		webSiteEmail: ondra.votava@phpsnippets.cz
 
 extensions:
 	console: Kdyby\Console\DI\ConsoleExtension
