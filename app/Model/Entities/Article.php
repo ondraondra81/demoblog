@@ -12,7 +12,9 @@ namespace App\Model\Entities;
 use CreativeDesign\Utils\Text;
 use Doctrine\ORM\Mapping AS ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Kdyby;
+use Kdyby\Doctrine\Entities\BaseEntity;
+use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use Nette\InvalidArgumentException;
 use Nette\Utils\Strings;
 use Nette\Utils\DateTime;
 
@@ -28,10 +30,10 @@ use Nette\Utils\DateTime;
  * @ORM\Table(name="articles")
  */
 
-class Article extends Kdyby\Doctrine\Entities\BaseEntity
+class Article extends BaseEntity
 {
 
-    use Kdyby\Doctrine\Entities\Attributes\Identifier;
+    use Identifier;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -40,7 +42,7 @@ class Article extends Kdyby\Doctrine\Entities\BaseEntity
     private $title;
 
     /**
-     * @ORM\Column(type="string", nullable=false, unique=true )
+     * @ORM\Column(type="string", nullable=false)
      * @var string
      */
     private $webalizeTitle;
@@ -101,6 +103,7 @@ class Article extends Kdyby\Doctrine\Entities\BaseEntity
 
         if (!$this->tags->contains($tag) ) {
             $this->tags->add($tag);
+            $tag->addArticles($this);
         }
 
         return $this;
@@ -115,8 +118,8 @@ class Article extends Kdyby\Doctrine\Entities\BaseEntity
     {
         if ( $this->tags->contains($tag) ) {
             $this->tags->removeElement($tag);
+            $tag->removeArticle($this);
         }
-
         return $this;
 
     }
@@ -124,15 +127,11 @@ class Article extends Kdyby\Doctrine\Entities\BaseEntity
 
     /**
      * @param $title
-     *
-     * @return $this
      */
     public function setTitle($title)
     {
         $this->title = Strings::upper($title);
         $this->webalizeTitle = Strings::webalize($title);
-
-        return $this;
     }
 
     /**
@@ -177,8 +176,6 @@ class Article extends Kdyby\Doctrine\Entities\BaseEntity
 
     /**
      * @param bool $published
-     *
-     * @return $this
      */
     public function setPublished($published = false)
     {
@@ -193,8 +190,6 @@ class Article extends Kdyby\Doctrine\Entities\BaseEntity
             else
                 $this->published = Text::toBool($published);
         }
-
-        return $this;
 
     }
 

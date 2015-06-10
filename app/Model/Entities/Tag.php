@@ -9,11 +9,13 @@
 namespace App\Model\Entities;
 
 
+use CreativeDesign\Utils\Text;
 use Doctrine\ORM\Mapping AS ORM;
 use Doctrine\Common\Collections\ArrayCollection;
-use Kdyby;
-
-
+use Kdyby\Doctrine\Entities\BaseEntity;
+use Kdyby\Doctrine\Entities\Attributes\Identifier;
+use Nette\ArgumentOutOfRangeException;
+use Nette\Utils\Strings;
 
 
 /**
@@ -27,10 +29,10 @@ use Kdyby;
  * @ORM\Table(name="tags")
  */
 
-class Tag extends Kdyby\Doctrine\Entities\BaseEntity
+class Tag extends BaseEntity
 {
 
-    use Kdyby\Doctrine\Entities\Attributes\Identifier;
+    use Identifier;
 
     /**
      * @ORM\Column(type="string", nullable=false)
@@ -64,8 +66,8 @@ class Tag extends Kdyby\Doctrine\Entities\BaseEntity
     public function __construct($title, $color = "#800000")
     {
         $this->setTitle($title);
-        $this->setColor($color);
         $this->articles = new ArrayCollection();
+        $this->setColor($color);
     }
 
 
@@ -74,17 +76,11 @@ class Tag extends Kdyby\Doctrine\Entities\BaseEntity
      *
      * @return Article $this
      */
-    public function addArticle(Article $article)
+    public function addArticles(Article $article)
     {
 
-        # provedeme puze pokud již $article v ArrayCollection nexistuje
         if(!$this->articles->contains($article)){
-
-            $this->articles->add($article); # pridáme do ArrayCollection
-
-            # vložíme i do entity reprezentující Article, protože je to vlasnící strana a EntityManager sleduje pouze jí
-            $article->addTag($this);
-
+            $this->articles->add($article);
             return $this;
         }
 
@@ -96,10 +92,9 @@ class Tag extends Kdyby\Doctrine\Entities\BaseEntity
     public function removeArticle(Article $article)
     {
 
-        # pokud je entita Article pritomna
-        if($this->articles->contains($article))
+        if(!$this->articles->contains($article))
         {
-            $this->articles->removeElement($article); # odebereme ji
+            $this->articles->removeElement($article);
         }
     }
 
@@ -110,7 +105,7 @@ class Tag extends Kdyby\Doctrine\Entities\BaseEntity
     public function setTitle($title)
     {
         $this->title = $title;
-        $this->webalizeTitle = \Nette\Utils\Strings::webalize($title);
+        $this->webalizeTitle = Strings::webalize($title);
     }
 
     /**
@@ -130,7 +125,7 @@ class Tag extends Kdyby\Doctrine\Entities\BaseEntity
     }
 
     /**
-     * Get color hashtag
+     * Get color
      * @return string
      */
     public function getColor()
@@ -139,16 +134,15 @@ class Tag extends Kdyby\Doctrine\Entities\BaseEntity
     }
 
     /**
-     * Set Color, barva musí být ve formátu #xxx nebo #xxxxxx
-     *
-    *@param string $color
+     * Set Color
+     * @param string $c
      */
-    public function setColor($color)
+    public function setColor($c)
     {
-        if(\CreativeDesign\Utils\Text::validateHexColor($color))
-            $this->tagColor = $color;
+        if(Text::validateHexColor($c))
+            $this->tagColor = $c;
         else
-            throw new \Nette\ArgumentOutOfRangeException("Argument $color is out of range");
+            throw new ArgumentOutOfRangeException("Argument $c is out of range");
 
     }
 }
