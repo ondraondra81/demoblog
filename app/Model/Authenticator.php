@@ -21,12 +21,12 @@ class Authenticator extends Nette\Object implements NS\IAuthenticator
 {
 
     /**
-     * @var Dao\Users users
+     * @var Repository\Users users
      */
     private $users;
 
 
-    public function __construct(Dao\Users $users)
+    public function __construct(Repository\Users $users)
     {
         $this->users = $users;
     }

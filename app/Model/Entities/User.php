@@ -1,4 +1,10 @@
 <?php
+/**
+ * Created by PhpStorm.
+ * User: ondrej.votava
+ * Date: 14. 9. 2014
+ * Time: 19:54
+ */
 
 namespace App\Model\Entities;
 
@@ -32,72 +38,27 @@ class User extends BaseEntity
     protected $username;
 
     /**
-     * @ORM\Column(type="string", nullable=false, unique=true)
+     * @ORM\Column(type="string", nullable=false)
      * @var string
      */
-    private $password;
+    protected $password;
 
     /**
      * @ORM\Column(type="string", nullable=false)
      * @var string
      */
-    private $role;
-
-    /**
-     * @var array roleList
-     */
-    static private $roleList = array(
-        'admin' => 'admin',
-        'moderator' => 'moderator',
-        'quest' => 'quest');
+    protected $role;
 
     /**
      * @param string $username
      * @param string $password
      */
-    function __construct($username, $password, $role = "quest")
-    {
-
-        $this->username = $username;
-        $this->setPassword($password);
-        $this->setRole($role);
-
-    }
-
-    public function setRole($role)
-    {
-        if(in_array($role, self::$roleList))
-            $this->role = $role;
-    }
-
-    public function getRole()
-    {
-        return $this->role;
-    }
-
-    /**
-     * @return array $roleList
-     */
-    public static function getRoleList()
-    {
-        return self::$roleList;
-    }
-
-    /**
-     * @param $password
-     */
-    public function setPassword($password)
+    function __construct($username, $password, $role = "admin")
     {
 
         $this->password = Passwords::hash($password);
-
+        $this->username = $username;
     }
 
-    /**
-     * @return string
-     */
-    public function getPassword()
-    {
-        return $this->password;
-    }
+
 }
